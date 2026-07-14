@@ -155,6 +155,34 @@ def test_read_account_not_found(self):
     self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
+def test_list_all_accounts(self):
+    """It should List all Accounts"""
 
+    self._create_accounts(5)
+
+    response = self.client.get(
+        BASE_URL,
+        content_type="application/json"
+    )
+
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    data = response.get_json()
+
+    self.assertEqual(len(data), 5)
+
+def test_list_no_accounts(self):
+    """It should return an empty list"""
+
+    response = self.client.get(
+        BASE_URL,
+        content_type="application/json"
+    )
+
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    data = response.get_json()
+
+    self.assertEqual(len(data), 0)
 
     
